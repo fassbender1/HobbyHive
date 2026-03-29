@@ -9,7 +9,6 @@ def send_event_reminder(email):
         [email],
     )
 
-
 def async_reminder(email):
     thread = threading.Thread(target=send_event_reminder, args=(email,))
     thread.start()
