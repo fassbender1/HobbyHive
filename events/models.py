@@ -3,6 +3,7 @@ from django.db import models
 from accounts.choices import EVENT_STATUS_CHOICES
 from accounts.models import AppUser
 from common.validators import validate_future_date
+from events.managers import EventManager
 from groups.models import Group
 
 
@@ -37,6 +38,9 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    objects = models.Manager()
+    custom = EventManager()
 
 
 class EventParticipation(models.Model):

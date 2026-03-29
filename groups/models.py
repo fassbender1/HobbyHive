@@ -2,6 +2,7 @@ from django.db import models
 
 from accounts.models import AppUser
 from common.validators import validate_min_length, validate_no_special_characters, validate_starts_with_letter
+from groups.managers import GroupManager
 from hobbies.models import Hobby
 
 class Group(models.Model):
@@ -30,6 +31,9 @@ class Group(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+
+    objects = models.Manager()
+    custom = GroupManager()
 
     def members_count(self):
         return self.members.count()

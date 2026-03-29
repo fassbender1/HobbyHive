@@ -5,6 +5,8 @@ from accounts.models import AppUser
 from common.validators import validate_not_empty
 from events.models import Event
 from groups.models import Group
+from interactions.managers import CommentManager
+
 
 class Comment(models.Model):
     user = models.ForeignKey(
@@ -34,6 +36,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+
+    objects = models.Manager()
+    custom = CommentManager()
 
     class Meta:
         ordering = ['-created_at']

@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from interactions.forms import CommentForm
 from interactions.models import Comment
@@ -15,4 +15,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
     model = Comment
-    success_url = '/'
+    success_url = 'common:home'
+
+class CommentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
