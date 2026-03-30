@@ -39,6 +39,7 @@ PROJECT_APPS = [
     'hobbies',
     'interactions',
     'api',
+    'common',
 ]
 
 # Application definition
