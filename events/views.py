@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 
 from events.forms import EventCreateForm
-from events.models import Event
+from events.models import Event, EventParticipation
 from events.tasks import send_event_reminder_async, notify_participants
 
 
@@ -59,12 +59,19 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
 
 def event_join(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    event.participants.add(request.user)
-    messages.success(request, f'You joined "{event.title}"!')
+    participation, created = EventParticipation.objects.get_or_create(user=request.user, event=event, defaults={'status':'going'})
+    if created:
+        messages.success(request, f'You joined "{event.title}"!')
+    else:
+        messages.info(request, "You are already participating in this event.")
     return redirect(event.get_absolute_url())
 
 def event_leave(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    event.participants.remove(request.user)
-    messages.warning(request, f'You left "{event.title}"!')
+    participation = EventParticipation.objects.filter(user=request.user, event=event).first()
+    if participation:
+        participation.delete()
+        messages.warning(request, f'You left "{event.title}"!')
+    else:
+        messages.info(request, "You are not a participant of this event.")
     return redirect(event.get_absolute_url())
