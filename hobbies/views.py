@@ -38,11 +38,11 @@ class HobbyDeleteView(LoginRequiredMixin, DeleteView):
 @login_required
 def hobby_join(request, pk):
     hobby = get_object_or_404(Hobby, pk=pk)
-    if request.user not in hobby.participants.all():
-        hobby.participants.add(request.user)
-        messages.success(request, f'You joined "{hobby.name}"!')
+    if request.user in hobby.participants.all():
+        messages.info(request, f"You already joined '{hobby.name}'.")
     else:
-        messages.info(request, "You are already participating in this hobby.")
+        hobby.participants.add(request.user)
+        messages.success(request, f"You joined '{hobby.name}'!")
     return redirect(hobby.get_absolute_url())
 
 @login_required
@@ -50,7 +50,7 @@ def hobby_leave(request, pk):
     hobby = get_object_or_404(Hobby, pk=pk)
     if request.user in hobby.participants.all():
         hobby.participants.remove(request.user)
-        messages.warning(request, f'You left "{hobby.name}"!')
+        messages.warning(request, f"You left '{hobby.name}'!")
     else:
-        messages.info(request, "You are not a participant of this hobby.")
+        messages.info(request, "You are not participating in this hobby.")
     return redirect(hobby.get_absolute_url())

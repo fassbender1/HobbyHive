@@ -27,7 +27,8 @@ class Group(models.Model):
     )
     members = models.ManyToManyField(
         AppUser,
-        related_name='joined_groups'
+        related_name='joined_groups',
+        blank=True
     )
     created_at = models.DateTimeField(
         auto_now_add=True

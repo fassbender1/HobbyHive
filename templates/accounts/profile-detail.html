@@ -15,22 +15,22 @@
     <hr>
     <h3>Participation</h3>
     <p><strong>Events:</strong>
-        {% for event in object.user.events_participated.all %}
+        {% for event in participated_events %}
             <a href="{% url 'events:event-detail' event.pk %}">{{ event.title }}</a>{% if not forloop.last %}, {% endif %}
         {% empty %}
             None
         {% endfor %}
     </p>
     <p><strong>Groups:</strong>
-        {% for group in object.user.groups_joined.all %}
+        {% for group in joined_groups %}
             <a href="{% url 'groups:group-detail' group.pk %}">{{ group.name }}</a>{% if not forloop.last %}, {% endif %}
         {% empty %}
             None
         {% endfor %}
     </p>
     <p><strong>Hobbies:</strong>
-        {% for hobby in object.user.hobbies.all %}
-            <a href="{% url 'hobbies:hobby-detail' hobby.pk %}">{{ hobby.title }}</a>{% if not forloop.last %}, {% endif %}
+        {% for hobby in joined_hobbies %}
+            <a href="{% url 'hobbies:hobby-detail' hobby.pk %}">{{ hobby.name }}</a>{% if not forloop.last %}, {% endif %}
         {% empty %}
             None
         {% endfor %}

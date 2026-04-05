@@ -6,10 +6,10 @@
     <h1>{{ object.name }}</h1>
     <p>{{ object.description }}</p>
     <p>Owner: {{ object.owner.username }}</p>
-    <p>Participants: {{ object.participants.count }}</p>
+    <p>Participants: {{ object.members.count }}</p>
 
     {% if user.is_authenticated %}
-        {% if user in object.participants.all %}
+        {% if user in object.members.all %}
             <a href="{% url 'groups:group-leave' object.pk %}" class="btn btn-warning">Leave Group</a>
             <span class="badge bg-success ms-2">You're a member!</span>
         {% else %}

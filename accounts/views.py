@@ -7,6 +7,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, ListView, D
 from accounts.forms import RegisterForm
 from accounts.models import Profile, AppUser
 from django.contrib.auth.views import LoginView, LogoutView
+from events.models import Event
 
 UserModel = get_user_model()
 
@@ -25,8 +26,18 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'accounts/profile-detail.html'
 
-    def get_object(self, queryset=None):
-        return self.request.user.profile
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        context['participated_events'] = Event.objects.filter(
+            participants__user=user
+        )
+
+        context['joined_groups'] = user.joined_groups.all()
+        context['joined_hobbies'] = user.joined_hobbies.all()
+
+        return context
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile

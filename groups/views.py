@@ -42,10 +42,10 @@ class GroupDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
 def group_join(request, pk):
     group = get_object_or_404(Group, pk=pk)
     if request.user in group.members.all():
-        messages.info(request, "You are already a member of this group.")
+        messages.info(request, f"You are already a member of '{group.name}'.")
     else:
         group.members.add(request.user)
-        messages.success(request, f'You joined "{group.name}"!')
+        messages.success(request, f"You joined '{group.name}'!")
     return redirect(group.get_absolute_url())
 
 @login_required
@@ -53,7 +53,7 @@ def group_leave(request, pk):
     group = get_object_or_404(Group, pk=pk)
     if request.user in group.members.all():
         group.members.remove(request.user)
-        messages.warning(request, f'You left "{group.name}"!')
+        messages.warning(request, f"You left '{group.name}'!")
     else:
         messages.info(request, "You are not a member of this group.")
     return redirect(group.get_absolute_url())

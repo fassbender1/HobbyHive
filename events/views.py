@@ -61,7 +61,9 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
 @login_required
 def event_join(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    participation, created = EventParticipation.objects.get_or_create(user=request.user, event=event, defaults={'status':'going'})
+    participation, created = EventParticipation.objects.get_or_create(
+        user=request.user, event=event, defaults={'status':'going'}
+    )
     if created:
         messages.success(request, f'You joined "{event.title}"!')
     else:
