@@ -1,0 +1,8 @@
+{% extends 'common/home.html' %}
+{% block content %}
+<div class="text-center mt-5">
+    <h2>Hello, {{ user.username }}!</h2>
+    <p>Check out your upcoming events and group activities.</p>
+    <a href="{% url 'events:event-list' %}" class="btn btn-custom">My Events</a>
+</div>
+{% endblock %}

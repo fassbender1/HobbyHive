@@ -1,0 +1,11 @@
+{% extends 'shared/base.html' %}
+{% block title %}{% if object %}Edit Group{% else %}Create Group{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if object %}Edit Group{% else %}Create Group{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-custom">Save</button>
+    <a href="{% url 'groups:group-list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.views.generic import CreateView, DetailView, UpdateView, DeleteView,
 
 from events.forms import EventCreateForm
 from events.models import Event
+from events.tasks import send_event_reminder_async, notify_participants
 
 
 class EventListView(ListView):
@@ -21,9 +22,20 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     form_class = EventCreateForm
     template_name = 'events/event-create.html'
 
+    # def form_valid(self, form):
+    #     form.instance.organizer = self.request.user
+    #     return super().form_valid(form)
+
     def form_valid(self, form):
         form.instance.organizer = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        send_event_reminder_async(
+            self.request.user.email,
+            form.instance.title
+        )
+        return response
+
 
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):
@@ -31,6 +43,12 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
     form_class = EventCreateForm
     template_name = 'events/event-edit.html'
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        notify_participants(self.object)
+
+        return response
 
 class EventDeleteView(LoginRequiredMixin, DeleteView):
     model = Event

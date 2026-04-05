@@ -1,0 +1,23 @@
+{% extends 'shared/base.html' %}
+{% block title %}Hobbies{% endblock %}
+{% block content %}
+<h1>Hobbies</h1>
+<div class="row">
+    {% for hobby in object_list %}
+    <div class="col-md-4">
+        <div class="card p-2">
+            <h5>{{ hobby.name }}</h5>
+            <p>{{ hobby.description|truncatechars:100 }}</p>
+            <a href="{% url 'hobbies:hobby-detail' hobby.pk %}" class="btn btn-custom btn-sm">View</a>
+            {% if user == hobby.creator %}
+                <a href="{% url 'hobbies:hobby-edit' hobby.pk %}" class="btn btn-success btn-sm">Edit</a>
+                <a href="{% url 'hobbies:hobby-delete' hobby.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+        <p>No hobbies found.</p>
+    {% endfor %}
+</div>
+<a href="{% url 'hobbies:hobby-create' %}" class="btn btn-custom mt-3">Create New Hobby</a>
+{% endblock %}

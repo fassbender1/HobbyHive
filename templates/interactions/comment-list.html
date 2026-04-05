@@ -1,0 +1,24 @@
+{% extends 'shared/base.html' %}
+{% block title %}Comments{% endblock %}
+{% block content %}
+<h1>Comments</h1>
+<div class="list-group">
+    {% for comment in object_list %}
+    <div class="list-group-item">
+        <p>{{ comment.content }}</p>
+        <small>By {{ comment.user.username }} on 
+            {% if comment.event %}Event: {{ comment.event.title }}{% endif %}
+            {% if comment.group %}Group: {{ comment.group.name }}{% endif %}
+        </small>
+        {% if user == comment.user %}
+            <a href="{% url 'interactions:comment-edit' comment.pk %}" class="btn btn-success btn-sm">Edit</a>
+            <a href="{% url 'interactions:comment-delete' comment.pk %}" class="btn btn-danger btn-sm">Delete</a>
+        {% endif %}
+        <a href="{% url 'interactions:comment-detail' comment.pk %}" class="btn btn-primary btn-sm">Details</a>
+    </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+</div>
+<a href="{% url 'interactions:comment-create' %}" class="btn btn-custom mt-3">Add Comment</a>
+{% endblock %}

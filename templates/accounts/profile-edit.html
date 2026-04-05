@@ -1,0 +1,11 @@
+{% extends 'shared/base.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<h1>Edit Profile</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-custom">Save Changes</button>
+    <a href="{% url 'accounts:profile-detail' object.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,9 +1,17 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import *
 
-from api.views import GroupListAPI
 
 app_name = 'api'
 
+
+router = DefaultRouter()
+router.register(r'groups', GroupViewSet)
+router.register(r'events', EventViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'hobbies', HobbyViewSet)
+
 urlpatterns = [
-    path('groups/', GroupListAPI.as_view()),
+    path('', include(router.urls)),
 ]

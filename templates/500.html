@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'shared/base.html' %}
+{% block title %}Server Error{% endblock %}
+{% block content %}
+<div class="text-center mt-5">
+    <h1>500</h1>
+    <p>Oops! Something went wrong on our side.</p>
+    <a href="{% url 'common:home' %}" class="btn btn-custom">Go Home</a>
+</div>
+{% endblock %}
