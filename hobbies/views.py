@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -34,14 +35,22 @@ class HobbyDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'hobbies/hobby-delete.html'
     success_url = reverse_lazy('hobbies:hobby-list')
 
+@login_required
 def hobby_join(request, pk):
     hobby = get_object_or_404(Hobby, pk=pk)
-    hobby.participants.add(request.user)
-    messages.success(request, f'You joined the hobby "{hobby.name}"!')
+    if request.user not in hobby.participants.all():
+        hobby.participants.add(request.user)
+        messages.success(request, f'You joined "{hobby.name}"!')
+    else:
+        messages.info(request, "You are already participating in this hobby.")
     return redirect(hobby.get_absolute_url())
 
+@login_required
 def hobby_leave(request, pk):
     hobby = get_object_or_404(Hobby, pk=pk)
-    hobby.participants.remove(request.user)
-    messages.warning(request, f'You left the hobby "{hobby.name}"!')
+    if request.user in hobby.participants.all():
+        hobby.participants.remove(request.user)
+        messages.warning(request, f'You left "{hobby.name}"!')
+    else:
+        messages.info(request, "You are not a participant of this hobby.")
     return redirect(hobby.get_absolute_url())

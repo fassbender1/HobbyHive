@@ -1,26 +1,34 @@
 {% extends 'shared/base.html' %}
 {% block title %}Groups{% endblock %}
+
 {% block content %}
-<h1>Groups</h1>
-<div class="row">
-    {% for group in object_list %}
-    <div class="col-md-4">
-        <div class="card p-2">
-            <h5>{{ group.name }}</h5>
-            <p>{{ group.description|truncatechars:100 }}</p>
-            <small>Owner: {{ group.owner.username }}</small>
-            <div class="mt-2">
-                <a href="{% url 'groups:group-detail' group.pk %}" class="btn btn-primary btn-sm">View</a>
-                {% if user == group.owner %}
-                    <a href="{% url 'groups:group-edit' group.pk %}" class="btn btn-success btn-sm">Edit</a>
-                    <a href="{% url 'groups:group-delete' group.pk %}" class="btn btn-danger btn-sm">Delete</a>
-                {% endif %}
+<div class="container mt-4">
+    <h1>Groups</h1>
+    <a href="{% url 'groups:group-create' %}" class="btn btn-success mb-3">Create Group</a>
+    <div class="row">
+        {% for group in object_list %}
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ group.name }}</h5>
+                    <p class="card-text">{{ group.description|truncatewords:15 }}</p>
+                    <p>Owner: {{ group.owner.username }}</p>
+
+                    {% if user.is_authenticated %}
+                        {% if user in group.participants.all %}
+                            <a href="{% url 'groups:group-leave' group.pk %}" class="btn btn-warning btn-sm">Leave</a>
+                        {% else %}
+                            <a href="{% url 'groups:group-join' group.pk %}" class="btn btn-success btn-sm">Join</a>
+                        {% endif %}
+                    {% endif %}
+
+                    <a href="{% url 'groups:group-detail' group.pk %}" class="btn btn-primary btn-sm mt-2">Details</a>
+                </div>
             </div>
         </div>
+        {% empty %}
+            <p>No groups available.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-        <p>No groups available.</p>
-    {% endfor %}
 </div>
-<a href="{% url 'groups:group-create' %}" class="btn btn-custom mt-3">Create New Group</a>
 {% endblock %}

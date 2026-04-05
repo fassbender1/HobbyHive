@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -57,6 +58,7 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'events/event-delete.html'
     success_url = reverse_lazy('events:event-list')
 
+@login_required
 def event_join(request, pk):
     event = get_object_or_404(Event, pk=pk)
     participation, created = EventParticipation.objects.get_or_create(user=request.user, event=event, defaults={'status':'going'})
@@ -66,6 +68,7 @@ def event_join(request, pk):
         messages.info(request, "You are already participating in this event.")
     return redirect(event.get_absolute_url())
 
+@login_required
 def event_leave(request, pk):
     event = get_object_or_404(Event, pk=pk)
     participation = EventParticipation.objects.filter(user=request.user, event=event).first()

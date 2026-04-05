@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from accounts.choices import EVENT_STATUS_CHOICES
 from accounts.models import AppUser
@@ -32,6 +33,9 @@ class Event(models.Model):
 
     class Meta:
         ordering = ['date']
+
+    def get_absolute_url(self):
+        return reverse('events:event-detail', kwargs={'pk': self.pk})
 
     def participants_count(self):
         return self.participants.count()

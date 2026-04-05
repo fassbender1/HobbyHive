@@ -1,10 +1,39 @@
 {% extends 'shared/base.html' %}
-{% block title %}Profile{% endblock %}
+{% block title %}{{ object.user.username }}'s Profile{% endblock %}
+
 {% block content %}
-<h1>{{ object.username }}'s Profile</h1>
-<p>Email: {{ object.email }}</p>
-<p>Joined: {{ object.date_joined }}</p>
-<a href="{% url 'accounts:profile-edit' object.pk %}" class="btn btn-success">Edit Profile</a>
-<a href="{% url 'accounts:profile-delete' object.pk %}" class="btn btn-danger">Delete Profile</a>
-<a href="{% url 'accounts:user-list' %}" class="btn btn-secondary">Back to Users</a>
+<div class="container mt-4">
+    <h1>{{ object.user.username }}'s Profile</h1>
+
+    {% if user == object.user %}
+        <a href="{% url 'accounts:profile-edit' object.pk %}" class="btn btn-primary mb-3">Edit Profile</a>
+    {% endif %}
+
+    <p><strong>Email:</strong> {{ object.user.email }}</p>
+    <p><strong>Date Joined:</strong> {{ object.user.date_joined|date:"F j, Y" }}</p>
+
+    <hr>
+    <h3>Participation</h3>
+    <p><strong>Events:</strong>
+        {% for event in object.user.events_participated.all %}
+            <a href="{% url 'events:event-detail' event.pk %}">{{ event.title }}</a>{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            None
+        {% endfor %}
+    </p>
+    <p><strong>Groups:</strong>
+        {% for group in object.user.groups_joined.all %}
+            <a href="{% url 'groups:group-detail' group.pk %}">{{ group.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            None
+        {% endfor %}
+    </p>
+    <p><strong>Hobbies:</strong>
+        {% for hobby in object.user.hobbies.all %}
+            <a href="{% url 'hobbies:hobby-detail' hobby.pk %}">{{ hobby.title }}</a>{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            None
+        {% endfor %}
+    </p>
+</div>
 {% endblock %}

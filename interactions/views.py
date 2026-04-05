@@ -16,6 +16,18 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+
+        event_id = self.request.GET.get('event')
+        group_id = self.request.GET.get('group')
+
+        if event_id:
+            form.instance.event_id = event_id
+        elif group_id:
+            form.instance.group_id = group_id
+        else:
+            form.add_error(None, "Comment must belong to a group or event.")
+            return self.form_invalid(form)
+
         response = super().form_valid(form)
 
         if form.instance.group:

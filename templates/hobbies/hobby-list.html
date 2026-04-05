@@ -1,23 +1,41 @@
 {% extends 'shared/base.html' %}
 {% block title %}Hobbies{% endblock %}
+
 {% block content %}
-<h1>Hobbies</h1>
-<div class="row">
-    {% for hobby in object_list %}
-    <div class="col-md-4">
-        <div class="card p-2">
-            <h5>{{ hobby.name }}</h5>
-            <p>{{ hobby.description|truncatechars:100 }}</p>
-            <a href="{% url 'hobbies:hobby-detail' hobby.pk %}" class="btn btn-custom btn-sm">View</a>
-            {% if user == hobby.creator %}
-                <a href="{% url 'hobbies:hobby-edit' hobby.pk %}" class="btn btn-success btn-sm">Edit</a>
-                <a href="{% url 'hobbies:hobby-delete' hobby.pk %}" class="btn btn-danger btn-sm">Delete</a>
-            {% endif %}
+<div class="container mt-4">
+    <h1>Hobbies</h1>
+    {% if user.is_authenticated %}
+        <a href="{% url 'hobbies:hobby-create' %}" class="btn btn-success mb-3">Create Hobby</a>
+    {% endif %}
+    <div class="row">
+        {% for hobby in object_list %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ hobby.title }}</h5>
+                    <p class="card-text">{{ hobby.description|truncatechars:100 }}</p>
+                    <p>Owner: {{ hobby.owner.username }}</p>
+                    <p>Participants: {{ hobby.participants.count }}</p>
+
+                    <a href="{{ hobby.get_absolute_url }}" class="btn btn-primary">Details</a>
+                    {% if user == hobby.owner %}
+                        <a href="{% url 'hobbies:hobby-edit' hobby.pk %}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'hobbies:hobby-delete' hobby.pk %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        {% if user in hobby.participants.all %}
+                            <a href="{% url 'hobbies:hobby-leave' hobby.pk %}" class="btn btn-warning mt-1">Leave Hobby</a>
+                        {% else %}
+                            <a href="{% url 'hobbies:hobby-join' hobby.pk %}" class="btn btn-success mt-1">Join Hobby</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
+        {% empty %}
+            <p>No hobbies available yet.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-        <p>No hobbies found.</p>
-    {% endfor %}
 </div>
-<a href="{% url 'hobbies:hobby-create' %}" class="btn btn-custom mt-3">Create New Hobby</a>
 {% endblock %}

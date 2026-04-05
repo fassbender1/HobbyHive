@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from accounts.models import AppUser
 from common.validators import validate_min_length, validate_no_special_characters, validate_starts_with_letter
@@ -34,6 +35,9 @@ class Group(models.Model):
 
     objects = models.Manager()
     custom = GroupManager()
+
+    def get_absolute_url(self):
+        return reverse('groups:group-detail', kwargs={'pk': self.pk})
 
     def members_count(self):
         return self.members.count()

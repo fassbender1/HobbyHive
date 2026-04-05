@@ -1,15 +1,18 @@
 {% extends 'shared/base.html' %}
-{% block title %}Users{% endblock %}
+{% block title %}All Users{% endblock %}
+
 {% block content %}
-<h1>Registered Users</h1>
-<ul class="list-group">
-    {% for user in object_list %}
-    <li class="list-group-item">
-        {{ user.username }} - {{ user.email }}
-        <a href="{% url 'accounts:profile-detail' user.pk %}" class="btn btn-primary btn-sm">View Profile</a>
-    </li>
-    {% empty %}
-        <p>No users found.</p>
-    {% endfor %}
-</ul>
+<div class="container mt-4">
+    <h2>All Users</h2>
+
+    <div class="list-group">
+        {% for user_obj in object_list %}
+            <a href="{% url 'accounts:profile-detail' user_obj.pk %}" class="list-group-item list-group-item-action">
+                {{ user_obj.username }} ({{ user_obj.email }})
+            </a>
+        {% empty %}
+            <p>No users found.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

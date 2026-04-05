@@ -1,11 +1,14 @@
 {% extends 'shared/base.html' %}
-{% block title %}{% if object %}Edit Hobby{% else %}Create Hobby{% endif %}{% endblock %}
+{% block title %}Edit Hobby{% endblock %}
+
 {% block content %}
-<h1>{% if object %}Edit Hobby{% else %}Create Hobby{% endif %}</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-custom">Save</button>
-    <a href="{% url 'hobbies:hobby-list' %}" class="btn btn-secondary">Cancel</a>
-</form>
+<div class="container mt-4">
+    <h1>Edit Hobby</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{{ object.get_absolute_url }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
 {% endblock %}

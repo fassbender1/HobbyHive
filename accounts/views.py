@@ -25,6 +25,9 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'accounts/profile-detail.html'
 
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ['bio', 'profile_picture']

@@ -1,29 +1,17 @@
 {% extends 'shared/base.html' %}
-{% block title %}Comment Detail{% endblock %}
+{% block title %}Comment by {{ object.user.username }}{% endblock %}
+
 {% block content %}
-<h1>Comment by {{ object.user.username }}</h1>
-<p>{{ object.content }}</p>
-<p>
-    {% if object.group %}Group: {{ object.group.name }}{% endif %}
-    {% if object.event %}Event: {{ object.event.title }}{% endif %}
-</p>
+<div class="container mt-4">
+    <h3>Comment by {{ object.user.username }}</h3>
+    <p>{{ object.content }}</p>
+    <p>Posted on: {{ object.created_at }}</p>
 
-<h3>Related Comments</h3>
-<ul>
-    {% if object.event %}
-        {% for comment in object.event.event_comments.exclude(pk=object.pk) %}
-        <li>{{ comment.user.username }}: {{ comment.content }}</li>
-        {% endfor %}
-    {% elif object.group %}
-        {% for comment in object.group.group_comments.exclude(pk=object.pk) %}
-        <li>{{ comment.user.username }}: {{ comment.content }}</li>
-        {% endfor %}
+    {% if object.user == user %}
+        <a href="{% url 'interactions:comment-edit' object.pk %}" class="btn btn-success">Edit</a>
+        <a href="{% url 'interactions:comment-delete' object.pk %}" class="btn btn-danger">Delete</a>
     {% endif %}
-</ul>
 
-{% if user == object.user %}
-    <a href="{% url 'interactions:comment-edit' object.pk %}" class="btn btn-success">Edit</a>
-    <a href="{% url 'interactions:comment-delete' object.pk %}" class="btn btn-danger">Delete</a>
-{% endif %}
-<a href="{% url 'interactions:comment-list' %}" class="btn btn-custom">Back to Comments</a>
+    <a href="{% if object.event %}{% url 'events:event-detail' object.event.pk %}{% elif object.group %}{% url 'groups:group-detail' object.group.pk %}{% elif object.hobby %}{% url 'hobbies:hobby-detail' object.hobby.pk %}{% endif %}" class="btn btn-secondary mt-3">Back</a>
+</div>
 {% endblock %}

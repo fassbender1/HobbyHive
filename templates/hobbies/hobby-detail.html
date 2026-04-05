@@ -5,13 +5,12 @@
 <div class="container mt-4">
     <h1>{{ object.name }}</h1>
     <p>{{ object.description }}</p>
-
     <p>Participants: {{ object.participants.count }}</p>
 
     {% if user.is_authenticated %}
-        {% if object.participants.filter(user=user).exists %}
+        {% if user in object.participants.all %}
             <a href="{% url 'hobbies:hobby-leave' object.pk %}" class="btn btn-warning">Leave Hobby</a>
-            <span class="badge bg-success ms-2">You're a member!</span>
+            <span class="badge bg-success ms-2">You're participating!</span>
         {% else %}
             <a href="{% url 'hobbies:hobby-join' object.pk %}" class="btn btn-success">Join Hobby</a>
         {% endif %}
@@ -28,13 +27,13 @@
     <h3>Comments</h3>
     <div class="list-group mb-3">
         {% for comment in object.hobby_comments.all %}
-        <div class="list-group-item">
-            <strong>{{ comment.user.username }}</strong>: {{ comment.content }}
-            {% if comment.user == user %}
-                <a href="{% url 'interactions:comment-edit' comment.pk %}" class="btn btn-sm btn-success ms-2">Edit</a>
-                <a href="{% url 'interactions:comment-delete' comment.pk %}" class="btn btn-sm btn-danger ms-1">Delete</a>
-            {% endif %}
-        </div>
+            <div class="list-group-item">
+                <strong>{{ comment.user.username }}</strong>: {{ comment.content }}
+                {% if comment.user == user %}
+                    <a href="{% url 'interactions:comment-edit' comment.pk %}" class="btn btn-sm btn-success ms-2">Edit</a>
+                    <a href="{% url 'interactions:comment-delete' comment.pk %}" class="btn btn-sm btn-danger ms-1">Delete</a>
+                {% endif %}
+            </div>
         {% empty %}
             <p>No comments yet.</p>
         {% endfor %}
@@ -46,17 +45,4 @@
 
     <a href="{% url 'hobbies:hobby-list' %}" class="btn btn-secondary mt-3">Back to Hobbies</a>
 </div>
-    
-{% if messages %}
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
-    {% for message in messages %}
-        <div class="toast show {% if message.tags %}bg-{{ message.tags }}{% endif %} text-white" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">{{ message }}</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-{% endif %}
 {% endblock %}
