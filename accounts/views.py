@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -10,9 +11,15 @@ from django.contrib.auth.views import LoginView, LogoutView
 UserModel = get_user_model()
 
 class RegisterView(CreateView):
+    model = AppUser
     form_class = RegisterForm
     template_name = 'accounts/register.html'
     success_url = reverse_lazy('accounts:login')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Welcome! Your account has been created.")
+        return response
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
@@ -40,6 +47,15 @@ class UserListView(LoginRequiredMixin, ListView):
 
 class UserLoginView(LoginView):
     template_name = 'accounts/login.html'
+    success_url = reverse_lazy('common:home')
+
+    def form_valid(self, form):
+        messages.success(self.request, f"Welcome back, {self.request.user.username}!")
+        return super().form_valid(form)
 
 class UserLogoutView(LogoutView):
-    next_page = '/'
+    next_page = reverse_lazy('common:home')
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(request, "You have been logged out.")
+        return super().dispatch(request, *args, **kwargs)

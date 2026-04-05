@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -27,6 +28,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
                 form.instance.event.organizer.email,
                 "New comment on your event"
             )
+
+        messages.success(self.request, "Comment posted successfully!")
         return response
 class CommentUpdateView(LoginRequiredMixin, UpdateView):
     model = Comment
@@ -34,10 +37,20 @@ class CommentUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'interactions/comment-edit.html'
     success_url = reverse_lazy('common:home')
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Comment updated successfully!")
+        return response
+
+
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
     model = Comment
     template_name = 'interactions/comment-delete.html'
     success_url = reverse_lazy('common:home')
+
+    def delete(self, request, *args, **kwargs):
+        messages.warning(request, "Comment deleted!")
+        return super().delete(request, *args, **kwargs)
 
 class CommentDetailView(LoginRequiredMixin, DetailView):
     model = Comment

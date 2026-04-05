@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 
@@ -54,3 +56,15 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
     model = Event
     template_name = 'events/event-delete.html'
     success_url = reverse_lazy('events:event-list')
+
+def event_join(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    event.participants.add(request.user)
+    messages.success(request, f'You joined "{event.title}"!')
+    return redirect(event.get_absolute_url())
+
+def event_leave(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    event.participants.remove(request.user)
+    messages.warning(request, f'You left "{event.title}"!')
+    return redirect(event.get_absolute_url())
