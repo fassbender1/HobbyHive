@@ -15,9 +15,9 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ hobby.title }}</h5>
+                    <h5 class="card-title">{{ hobby.name }}</h5>
                     <p class="card-text">{{ hobby.description|truncatechars:100 }}</p>
-                    <p>Owner: {{ hobby.owner.username }}</p>
+                    <p>Owner: {{ hobby.owner.username|default:"Unknown" }}</p>
                     <p>Participants: {{ hobby.participants.count }}</p>
 
                     <a href="{{ hobby.get_absolute_url }}" class="btn btn-primary">Details</a>

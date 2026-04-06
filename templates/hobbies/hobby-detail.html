@@ -19,29 +19,12 @@
     {% endif %}
 
     {% if user == object.owner %}
-        <a href="{% url 'hobbies:hobby-edit' object.pk %}" class="btn btn-primary">Edit</a>
-        <a href="{% url 'hobbies:hobby-delete' object.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'hobbies:hobby-edit' hobby.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'hobbies:hobby-delete' hobby.pk %}" class="btn btn-danger">Delete</a>
     {% endif %}
 
     <hr>
-{#    <h3>Comments</h3>#}
-{#    <div class="list-group mb-3">#}
-{#        {% for comment in object.hobby_comments.all %}#}
-{#            <div class="list-group-item">#}
-{#                <strong>{{ comment.user.username }}</strong>: {{ comment.content }}#}
-{#                {% if comment.user == user %}#}
-{#                    <a href="{% url 'interactions:comment-edit' comment.pk %}" class="btn btn-sm btn-success ms-2">Edit</a>#}
-{#                    <a href="{% url 'interactions:comment-delete' comment.pk %}" class="btn btn-sm btn-danger ms-1">Delete</a>#}
-{#                {% endif %}#}
-{#            </div>#}
-{#        {% empty %}#}
-{#            <p>No comments yet.</p>#}
-{#        {% endfor %}#}
-{#    </div>#}
-{##}
-{#    {% if user.is_authenticated %}#}
-{#        <a href="{% url 'interactions:comment-create' %}" class="btn btn-custom">Add Comment</a>#}
-{#    {% endif %}#}
+
     <p class="text-muted">Comments are available for events and groups only.</p>
 
     <a href="{% url 'hobbies:hobby-list' %}" class="btn btn-secondary mt-3">Back to Hobbies</a>

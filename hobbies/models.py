@@ -19,6 +19,15 @@ class Hobby(models.Model):
         blank=True
     )
 
+    owner = models.ForeignKey(
+        AppUser,
+        on_delete=models.CASCADE,
+        related_name='owned_hobbies',
+        default=None,
+        null=True,
+        blank=True
+    )
+
     def get_absolute_url(self):
         return reverse('hobbies:hobby-detail', kwargs={'pk': self.pk})
 

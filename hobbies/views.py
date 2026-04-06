@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -33,17 +34,33 @@ class HobbyCreateView(LoginRequiredMixin, CreateView):
     fields = ['name', 'description']
     template_name = 'hobbies/hobby-create.html'
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 
 class HobbyUpdateView(LoginRequiredMixin, UpdateView):
     model = Hobby
     fields = ['name', 'description']
     template_name = 'hobbies/hobby-edit.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.owner != request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
 
 class HobbyDeleteView(LoginRequiredMixin, DeleteView):
     model = Hobby
     template_name = 'hobbies/hobby-delete.html'
     success_url = reverse_lazy('hobbies:hobby-list')
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.owner != request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 @login_required
 def hobby_join(request, pk):
