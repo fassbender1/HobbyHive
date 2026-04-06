@@ -3,6 +3,9 @@
 
 {% block content %}
 <div class="container mt-4">
+    <form method="get" class="mb-3">
+        <input type="text" name="q" placeholder="Search events..." class="form-control" value="{{ request.GET.q }}">
+    </form>
     <h1>Groups</h1>
     <a href="{% url 'groups:group-create' %}" class="btn btn-success mb-3">Create Group</a>
     <div class="row">
@@ -27,8 +30,36 @@
             </div>
         </div>
         {% empty %}
-            <p>No groups available.</p>
+            <div class="text-center text-muted mt-5">
+                <h4>No groups yet 😔</h4>
+                <p>Be the first to create one!</p>
+            </div>
         {% endfor %}
     </div>
+</div>
+<div class="mt-4">
+    {% if is_paginated %}
+        <nav>
+            <ul class="pagination justify-content-center">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item active">
+                    <span class="page-link">{{ page_obj.number }}</span>
+                </li>
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    {% endif %}
 </div>
 {% endblock %}

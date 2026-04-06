@@ -9,15 +9,17 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
 
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'events:event-list' %}">Events</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'hobbies:hobby-list' %}">Hobbies</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'groups:group-list' %}">Groups</a>
-        </li>
+        <a class="nav-link {% if request.path == '/events/' %}active{% endif %}" href="{% url 'events:event-list' %}">
+            <i class="bi bi-calendar-event"></i> Events
+        </a>
+
+        <a class="nav-link {% if request.path == '/hobbies/' %}active{% endif %}" href="{% url 'hobbies:hobby-list' %}">
+            <i class="bi bi-controller"></i> Hobbies
+        </a>
+
+        <a class="nav-link {% if request.path == '/groups/' %}active{% endif %}" href="{% url 'groups:group-list' %}">
+            <i class="bi bi-people"></i> Groups
+        </a>
 
         {% if user.is_authenticated %}
             <li class="nav-item">

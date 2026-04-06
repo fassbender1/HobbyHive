@@ -4,6 +4,15 @@
 {% block content %}
 <div class="container mt-4">
     <h1>{{ object.user.username }}'s Profile</h1>
+    {% if object.profile_picture %}
+        <img src="{{ object.profile_picture.url }}" 
+             class="rounded-circle mb-3"
+             width="150" height="150"
+             style="object-fit: cover;">
+    {% else %}
+        <img src="https://via.placeholder.com/150"
+             class="rounded-circle mb-3">
+    {% endif %}
 
     {% if user == object.user %}
         <a href="{% url 'accounts:profile-edit' object.pk %}" class="btn btn-primary mb-3">Edit Profile</a>

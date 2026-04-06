@@ -11,6 +11,16 @@ from hobbies.models import Hobby
 class HobbyListView(ListView):
     model = Hobby
     template_name = 'hobbies/hobby-list.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+
+        return queryset
 
 
 class HobbyDetailView(DetailView):

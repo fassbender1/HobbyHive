@@ -13,6 +13,16 @@ from events.tasks import send_event_reminder_async, notify_participants
 class EventListView(ListView):
     model = Event
     template_name = 'events/event-list.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            queryset = queryset.filter(title__icontains=query)
+
+        return queryset
 
 
 class EventDetailView(DetailView):

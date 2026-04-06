@@ -10,6 +10,10 @@ class EventCreateForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Event title'}),
             'location': forms.TextInput(attrs={'placeholder': 'Event location'}),
+            'date': forms.DateTimeInput(attrs={
+                'type': 'datetime-local',
+                'class': 'form-control'
+            })
         }
 
         error_messages = {
