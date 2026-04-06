@@ -1,13 +1,53 @@
 {% extends 'shared/base.html' %}
 {% block title %}Home - HobbyHive{% endblock %}
+
 {% block content %}
-<div class="text-center mt-5">
-    <h1>Welcome to HobbyHive!</h1>
-    <p>Discover hobbies, join groups, and participate in events!</p>
-    {% if user.is_authenticated %}
-        <a href="{% url 'events:event-list' %}" class="btn btn-custom">View Events</a>
-    {% else %}
-        <a href="{% url 'accounts:register' %}" class="btn btn-custom">Get Started</a>
-    {% endif %}
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Welcome to HobbyHive 🐝</h1>
+        <p class="lead mt-3">
+            A place to discover hobbies, connect with like-minded people,
+            join groups, and participate in exciting events.
+        </p>
+
+        {% if user.is_authenticated %}
+            <div class="mt-4">
+                <a href="{% url 'events:event-list' %}" class="btn btn-primary btn-lg me-2">
+                    Explore Events
+                </a>
+                <a href="{% url 'groups:group-list' %}" class="btn btn-outline-secondary btn-lg">
+                    Browse Groups
+                </a>
+            </div>
+        {% else %}
+            <div class="mt-4">
+                <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg me-2">
+                    Get Started
+                </a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary btn-lg">
+                    Login
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row text-center mt-5">
+        <div class="col-md-4">
+            <h4>🎯 Discover Hobbies</h4>
+            <p>Explore a wide range of hobbies and find what excites you.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h4>👥 Join Groups</h4>
+            <p>Connect with people who share your interests.</p>
+        </div>
+
+        <div class="col-md-4">
+            <h4>📅 Attend Events</h4>
+            <p>Participate in events and build real-world connections.</p>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

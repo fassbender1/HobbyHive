@@ -1,8 +1,17 @@
 {% extends 'common/home.html' %}
-{% block content %}
-<div class="text-center mt-5">
-    <h2>Hello, {{ user.username }}!</h2>
-    <p>Check out your upcoming events and group activities.</p>
-    <a href="{% url 'events:event-list' %}" class="btn btn-custom">My Events</a>
+
+{% block home_content %}
+<div class="text-center mt-4">
+    <h2>Welcome back, {{ user.username }} 👋</h2>
+    <p>Check out your events and groups.</p>
+
+    <div class="mt-4">
+        <a href="{% url 'events:event-list' %}" class="btn btn-primary btn-lg me-2">
+            My Events
+        </a>
+        <a href="{% url 'groups:group-list' %}" class="btn btn-outline-secondary btn-lg">
+            My Groups
+        </a>
+    </div>
 </div>
 {% endblock %}

@@ -1,7 +1,17 @@
 {% extends 'common/home.html' %}
-{% block content %}
-<div class="text-center mt-5">
-    <h2>Sign up to join the fun!</h2>
-    <a href="{% url 'accounts:register' %}" class="btn btn-custom">Register Now</a>
+
+{% block home_content %}
+<div class="text-center mt-4">
+    <h2>Join HobbyHive today 🚀</h2>
+    <p>Create an account to start exploring hobbies and events.</p>
+
+    <div class="mt-4">
+        <a href="{% url 'accounts:register' %}" class="btn btn-success btn-lg me-2">
+            Get Started
+        </a>
+        <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary btn-lg">
+            Login
+        </a>
+    </div>
 </div>
 {% endblock %}
