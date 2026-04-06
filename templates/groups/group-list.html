@@ -4,10 +4,12 @@
 {% block content %}
 <div class="container mt-4">
     <form method="get" class="mb-3">
-        <input type="text" name="q" placeholder="Search events..." class="form-control" value="{{ request.GET.q }}">
+        <input type="text" name="q" placeholder="Search groups..." class="form-control" value="{{ request.GET.q }}">
     </form>
     <h1>Groups</h1>
-    <a href="{% url 'groups:group-create' %}" class="btn btn-success mb-3">Create Group</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'groups:group-create' %}" class="btn btn-success mb-3">Create Group</a>
+    {% endif %}
     <div class="row">
         {% for group in object_list %}
         <div class="col-md-4">
@@ -18,10 +20,16 @@
                     <p>Owner: {{ group.owner.username }}</p>
 
                     {% if user.is_authenticated %}
+                        {% if user == group.owner %}
+                            <!-- Show edit/delete for owner -->
+                            <a href="{% url 'groups:group-edit' group.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'groups:group-delete' group.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                        {% endif %}
+
                         {% if user in group.participants.all %}
-                            <a href="{% url 'groups:group-leave' group.pk %}" class="btn btn-warning btn-sm">Leave</a>
+                            <a href="{% url 'groups:group-leave' group.pk %}" class="btn btn-warning btn-sm mt-1">Leave Group</a>
                         {% else %}
-                            <a href="{% url 'groups:group-join' group.pk %}" class="btn btn-success btn-sm">Join</a>
+                            <a href="{% url 'groups:group-join' group.pk %}" class="btn btn-success btn-sm mt-1">Join Group</a>
                         {% endif %}
                     {% endif %}
 
@@ -37,27 +45,20 @@
         {% endfor %}
     </div>
 </div>
+
 <div class="mt-4">
     {% if is_paginated %}
         <nav>
             <ul class="pagination justify-content-center">
-
                 {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                    </li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
                 {% endif %}
 
-                <li class="page-item active">
-                    <span class="page-link">{{ page_obj.number }}</span>
-                </li>
+                <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
 
                 {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    </li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
                 {% endif %}
-
             </ul>
         </nav>
     {% endif %}
