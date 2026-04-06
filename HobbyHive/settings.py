@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'common.middleware.RequestTimeMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'common.middleware.ForceCustomErrorPagesMiddleware',
 ]
 
 ROOT_URLCONF = 'HobbyHive.urls'
