@@ -20,6 +20,5 @@ class ProfileEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Disabled example ✔
         if self.instance and self.instance.user:
             self.fields['bio'].help_text = "Tell others about yourself"

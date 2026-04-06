@@ -13,8 +13,14 @@ class CommentForm(forms.ModelForm):
             })
         }
 
-    def clean_content(self):
-        content = self.cleaned_data['content']
-        if len(content.strip()) < 2:
-            raise forms.ValidationError("Comment is too short.")
-        return content
+    def clean(self):
+        cleaned_data = super().clean()
+
+        group = cleaned_data.get('group')
+        event = cleaned_data.get('event')
+
+        if not group and not event:
+
+            return cleaned_data
+
+        return cleaned_data

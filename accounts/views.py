@@ -67,9 +67,16 @@ class UserLoginView(LoginView):
         messages.success(self.request, f"Welcome back, {self.request.user.username}!")
         return super().form_valid(form)
 
+# class UserLogoutView(LogoutView):
+#     next_page = reverse_lazy('common:home')
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         messages.info(request, "You have been logged out.")
+#         return super().dispatch(request, *args, **kwargs)
+
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('common:home')
 
-    def dispatch(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         messages.info(request, "You have been logged out.")
-        return super().dispatch(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)

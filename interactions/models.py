@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 
 from accounts.models import AppUser
 from common.validators import validate_not_empty
@@ -43,9 +44,8 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-    def clean(self):
-        if not self.group and not self.event:
-            raise ValidationError("Comment must belong to a group or event.")
+    def get_absolute_url(self):
+        return reverse('interactions:comment-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return f"Comment by {self.user}"

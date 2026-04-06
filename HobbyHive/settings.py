@@ -158,6 +158,9 @@ AUTH_USER_MODEL = 'accounts.AppUser'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+LOGOUT_REDIRECT_URL = 'common:home'
+LOGIN_REDIRECT_URL = 'common:home'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",

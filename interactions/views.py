@@ -12,37 +12,46 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'interactions/comment-create.html'
-    success_url = reverse_lazy('common:home')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['group'] = self.request.GET.get('group')
+        initial['event'] = self.request.GET.get('event')
+        return initial
 
     def form_valid(self, form):
+        print("GET:", self.request.GET)
+
         form.instance.user = self.request.user
 
-        event_id = self.request.GET.get('event')
         group_id = self.request.GET.get('group')
+        event_id = self.request.GET.get('event')
 
-        if event_id:
-            form.instance.event_id = event_id
-        elif group_id:
-            form.instance.group_id = group_id
-        else:
+        print("GROUP:", group_id)
+        print("EVENT:", event_id)
+
+        if not group_id and not event_id:
             form.add_error(None, "Comment must belong to a group or event.")
             return self.form_invalid(form)
 
-        response = super().form_valid(form)
+        if group_id:
+            form.instance.group_id = group_id
 
-        if form.instance.group:
-            send_event_reminder_async(
-                form.instance.group.owner.email,
-                "New comment on your group"
-            )
-        if form.instance.event:
-            send_event_reminder_async(
-                form.instance.event.organizer.email,
-                "New comment on your event"
-            )
+        if event_id:
+            form.instance.event_id = event_id
+
+        response = super().form_valid(form)
 
         messages.success(self.request, "Comment posted successfully!")
         return response
+
+    def get_success_url(self):
+        if self.object.group:
+            return self.object.group.get_absolute_url()
+        if self.object.event:
+            return self.object.event.get_absolute_url()
+
+        return reverse_lazy('common:home')
 class CommentUpdateView(LoginRequiredMixin, UpdateView):
     model = Comment
     form_class = CommentForm
