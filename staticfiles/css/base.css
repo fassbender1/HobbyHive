@@ -1,0 +1,25 @@
+.toast.bg-success { background-color: #88d8b0 !important; }
+.toast.bg-warning { background-color: #f0a500 !important; }
+.toast.bg-primary { background-color: #9ad1d4 !important; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1100px;
+}
+body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1100px;
+}

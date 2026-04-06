@@ -15,12 +15,10 @@ class HobbyListView(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('name')
         query = self.request.GET.get('q')
-
         if query:
             queryset = queryset.filter(name__icontains=query)
-
         return queryset
 
 

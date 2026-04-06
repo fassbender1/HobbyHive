@@ -1,6 +1,11 @@
+from datetime import datetime
+from unittest.mock import patch
+
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.utils import timezone
+
 from events.models import Event
 from groups.models import Group
 from hobbies.models import Hobby
@@ -10,32 +15,44 @@ User = get_user_model()
 
 
 class HobbyHiveTestCase(TestCase):
-
     def setUp(self):
-        # Users
         self.user = User.objects.create_user(username='testuser', email='test@test.com', password='password123')
-        self.other_user = User.objects.create_user(username='otheruser', email='other@test.com', password='password123')
 
-        # Client
-        self.client = Client()
-
-        # Login
         self.client.login(username='testuser', password='password123')
 
-        # Hobby
-        self.hobby = Hobby.objects.create(name='Painting', description='Test hobby', owner=self.user)
+        self.hobby = Hobby.objects.create(name='Chess', description='Play chess', owner=self.user)
 
-        # Group
-        self.group = Group.objects.create(name='Chess Club', description='Chess group', owner=self.user)
+        self.group = Group.objects.create(
+            name='Chess Club',
+            description='Chess group',
+            owner=self.user,
+            hobby=self.hobby
+        )
 
-        # Event
-        self.event = Event.objects.create(title='Chess Tournament', description='Test event', organizer=self.user)
+        event_date = timezone.make_aware(datetime(2026, 5, 1))
 
-    # --- Accounts ---
+        self.event = Event.objects.create(
+            title='Chess Tournament',
+            description='Annual chess tournament',
+            date=event_date,
+            group=self.group,
+            organizer=self.user
+        )
+
+    @patch('events.tasks.send_mail')
+    def test_event_email(self, mock_send):
+        self.event = Event.objects.create(
+            title='Chess Tournament',
+            description='Annual chess tournament',
+            date='2026-05-01',
+            group=self.group,
+            organizer=self.user
+        )
+        mock_send.assert_not_called()
+
     def test_login_logout(self):
         response = self.client.get(reverse('accounts:profile-detail', args=[self.user.pk]))
         self.assertEqual(response.status_code, 200)
-        # logout
         self.client.post(reverse('accounts:logout'))
         response = self.client.get(reverse('common:home'))
         self.assertEqual(response.status_code, 200)
@@ -47,13 +64,11 @@ class HobbyHiveTestCase(TestCase):
         })
         self.assertEqual(User.objects.filter(username='newuser').exists(), True)
 
-    # --- Profiles ---
     def test_profile_detail_shows_user_info(self):
         response = self.client.get(reverse('accounts:profile-detail', args=[self.user.pk]))
         self.assertContains(response, self.user.username)
         self.assertContains(response, self.user.email)
 
-    # --- Hobbies ---
     def test_hobby_list_and_detail(self):
         response = self.client.get(reverse('hobbies:hobby-list'))
         self.assertContains(response, self.hobby.name)
@@ -70,21 +85,18 @@ class HobbyHiveTestCase(TestCase):
         response = self.client.get(reverse('hobbies:hobby-edit', args=[self.hobby.pk]))
         self.assertEqual(response.status_code, 200)
 
-    # --- Groups ---
     def test_group_creation_and_detail(self):
         response = self.client.get(reverse('groups:group-list'))
         self.assertContains(response, self.group.name)
         response = self.client.get(reverse('groups:group-detail', args=[self.group.pk]))
         self.assertContains(response, self.group.description)
 
-    # --- Events ---
     def test_event_creation_and_detail(self):
         response = self.client.get(reverse('events:event-list'))
         self.assertContains(response, self.event.title)
         response = self.client.get(reverse('events:event-detail', args=[self.event.pk]))
         self.assertContains(response, self.event.description)
 
-    # --- Comments ---
     def test_comment_creation_for_group(self):
         response = self.client.post(reverse('interactions:comment-create') + f'?group={self.group.pk}', {
             'content': 'Nice group!'
@@ -97,7 +109,6 @@ class HobbyHiveTestCase(TestCase):
         })
         self.assertEqual(Comment.objects.filter(event=self.event, user=self.user).count(), 1)
 
-    # --- Permissions / errors ---
     def test_comment_requires_authentication(self):
         self.client.logout()
         response = self.client.post(reverse('interactions:comment-create') + f'?event={self.event.pk}', {
