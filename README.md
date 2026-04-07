@@ -1,13 +1,13 @@
 
-📘 HobbyHive – Full Project Documentation
+# 📘 HobbyHive – Full Project Documentation
 
-AWS deployed:
+#### AWS deployed:
 
-http://51.21.64.133/
+#### http://51.21.64.133/
 
 ---
 
-🚀 Overview
+## 🚀 Overview
 
 HobbyHive is a full-stack Django web application designed to connect people through shared interests.
 
@@ -17,11 +17,11 @@ The project is built with real-world deployment in mind and is suitable for host
 
 ---
 
-✨ Core Functionalities
+## ✨ Core Functionalities
 
 ---
 
-👤 Authentication & Accounts (/accounts/)
+### 👤 Authentication & Accounts (/accounts/)
 
 User registration (/accounts/register/)
 
@@ -37,7 +37,7 @@ Ownership-based permissions
 
 ---
 
-🎯 Hobbies (/hobbies/)
+### 🎯 Hobbies (/hobbies/)
 
 List all hobbies
 
@@ -55,7 +55,7 @@ View participants
 
 ---
 
-👥 Groups (/groups/)
+### 👥 Groups (/groups/)
 
 List all groups
 
@@ -73,7 +73,7 @@ Groups are linked to hobbies
 
 ---
 
-📅 Events (/events/)
+### 📅 Events (/events/)
 
 List all events
 
@@ -93,7 +93,7 @@ Organizer system
 
 ---
 
-💬 Comments System (/comments/)
+### 💬 Comments System (/comments/)
 
 Users can comment on:
 
@@ -109,7 +109,7 @@ Dynamic filtering via query params:
 
 ---
 
-🔍 Search & Pagination
+### 🔍 Search & Pagination
 
 Search functionality on:
 
@@ -123,9 +123,11 @@ Pagination implemented across list views
 
 ---
 
-🔌 API (Django REST Framework)
+## 🔌 API (Django REST Framework)
 
-📡 Endpoints
+---
+
+### 📡 Endpoints
 
 /api/hobbies/
 
@@ -135,7 +137,7 @@ Pagination implemented across list views
 
 ---
 
-💡 API Capabilities
+### 💡 API Capabilities
 
 JSON-based responses
 
@@ -151,11 +153,11 @@ External integrations
 
 ---
 
-⚙️ Custom Middleware (Advanced Feature)
+## ⚙️ Custom Middleware (Advanced Feature)
 
 ---
 
-🧠 Implemented Custom Middlewares
+### 🧠 Implemented Custom Middlewares
 
 LastSeenMiddleware
 
@@ -169,11 +171,13 @@ ForceCustomErrorPagesMiddleware
 
 Forces custom error pages (403, 404, 500) to display even when DEBUG=True
 
-⚡ Asynchronous & Advanced Features
+---
+
+## ⚡ Asynchronous & Advanced Features
 
 ---
 
-📧 Django Signals
+### 📧 Django Signals
 
 Automatically triggered on event creation
 
@@ -183,7 +187,7 @@ Decouples logic from views
 
 ---
 
-🔄 Dynamic UI Logic
+### 🔄 Dynamic UI Logic
 
 Conditional rendering based on:
 
@@ -193,7 +197,8 @@ Participation (Join/Leave buttons)
 
 ---
 
-💡 Additional Enhancements
+### 💡 Additional Enhancements
+
 Smart templates for authenticated vs anonymous users
 
 Query-based filtering for comments
@@ -202,7 +207,7 @@ Clean separation of concerns across apps
 
 ---
 
-🎨 UI & User Experience
+### 🎨 UI & User Experience
 
 Responsive design (Bootstrap)
 
@@ -216,7 +221,7 @@ Clean and minimal interface
 
 ---
 
-⚠️ Custom Error Pages
+### ⚠️ Custom Error Pages
 
 Custom error pages implemented for:
 
@@ -232,7 +237,7 @@ These work in both development and production via middleware.
 
 ---
 
-📁 Static & Media Handling
+### 📁 Static & Media Handling
 
 Static files served via WhiteNoise
 
@@ -242,7 +247,7 @@ Production-ready setup
 
 ---
 
-🚀 Deployment Ready
+### 🚀 Deployment Ready
 
 The project is prepared for deployment on AWS using:
 
@@ -252,7 +257,7 @@ The project is prepared for deployment on AWS using:
 
 ---
 
-🔧 Production Setup Includes
+### 🔧 Production Setup Includes
 
 DEBUG = False support
 
@@ -266,7 +271,7 @@ Secure middleware configuration
 
 ---
 
-📦 Installation & Setup
+### 📦 Installation & Setup
 
 1️⃣ Clone repository
 
@@ -302,16 +307,48 @@ python manage.py runserver
 
 ---
 
-📦 Optional: Downloadable Project Archive
+### 📦 Optional: Downloadable Project Archive
 
 For convenience, you can download the entire HobbyHive project as a compressed archive:
 
 **HobbyHive.zip** – Contains all necessary project files to run the app locally in PyCharm.
 
+---
+
+## 🧪 Running Tests
+
+HobbyHive includes automated tests to verify core functionality. All tests are located in:
+
+/tests/test_full.py
+
+
+### ✅ Test Coverage
+
+We have a total of **15 tests** covering the main features:
+
+- 👤 **User Authentication** – registration, login, logout, profile view  
+
+- 📝 **Profile Management** – editing and updating bio field  
+
+- 🎯 **Hobbies** – list & detail views, join/leave, edit permissions  
+
+- 👥 **Groups** – create & view groups  
+
+- 📅 **Events** – create & view events, email notifications (mocked)  
+
+- 💬 **Comments** – adding comments to groups & events, authentication required 
+
+- ⚠️ **Error Pages** – custom 404 and 403 pages for forbidden actions  
+
+### ⚡ How to Run
+
+Run the following command to execute all tests:
+
+python manage.py test
 
 ---
 
-🔒 Ignored Files
+### 🔒 Ignored Files
 
 The project excludes:
 
@@ -327,7 +364,7 @@ media/
 
 ---
 
-🌟 Features Beyond Requirements
+### 🌟 Features Beyond Requirements
 
 Custom middleware (tracking + performance)
 
@@ -345,7 +382,7 @@ Scalable deployment-ready architecture
 
 ---
 
-📊 Tech Stack
+### 📊 Tech Stack
 
 Backend: Django, Django REST Framework
 
@@ -359,14 +396,14 @@ Static handling: WhiteNoise
 
 ---
 
-🔗 Deployment Links
+## 🔗 Deployment Links
 
 
-AWS: http://51.21.64.133/
+#### AWS: http://51.21.64.133/
 
 ---
 
-📌 Final Notes
+### 📌 Final Notes
 
 This project demonstrates:
 

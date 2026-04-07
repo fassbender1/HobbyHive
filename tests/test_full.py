@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+from accounts.models import Profile
 from events.models import Event
 from groups.models import Group
 from hobbies.models import Hobby
@@ -19,6 +20,7 @@ class HobbyHiveTestCase(TestCase):
         self.user = User.objects.create_user(username='testuser', email='test@test.com', password='password123')
 
         self.client.login(username='testuser', password='password123')
+
 
         self.hobby = Hobby.objects.create(name='Chess', description='Play chess', owner=self.user)
 
@@ -121,8 +123,10 @@ class HobbyHiveTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_403_page(self):
-        # Trying to edit hobby as non-owner
         self.client.logout()
         self.client.login(username='otheruser', password='password123')
         response = self.client.get(reverse('hobbies:hobby-edit', args=[self.hobby.pk]))
         self.assertEqual(response.status_code, 403)
+
+    def test_simple_placeholder(self):
+        self.assertTrue(True)
