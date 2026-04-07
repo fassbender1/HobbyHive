@@ -1,5 +1,10 @@
 📘 HobbyHive – Full Project Documentation
 
+AWS deployed:
+
+http://51.21.64.133/
+
+
 🚀 Overview
 
 HobbyHive is a full-stack Django web application designed to connect people through shared interests.
@@ -205,7 +210,6 @@ The project is prepared for deployment on:
 
 AWS
 
-Azure
 
 🔧 Production Setup Includes
 
@@ -291,17 +295,15 @@ Frontend: HTML, CSS, Bootstrap
 
 Database: PostgreSQL (psycopg2)
 
-Deployment: AWS / Azure ready
+Deployment: AWS ready
 
 Static handling: WhiteNoise
 
 🔗 Deployment Links
 
-(To be added after deployment)
 
-AWS:
+AWS: http://51.21.64.133/
 
-Azure:
 
 📌 Final Notes
 
