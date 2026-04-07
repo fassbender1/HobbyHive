@@ -302,6 +302,15 @@ python manage.py runserver
 
 ---
 
+📦 Optional: Downloadable Project Archive
+
+For convenience, you can download the entire HobbyHive project as a compressed archive:
+
+**HobbyHive.zip** – Contains all necessary project files to run the app locally in PyCharm.
+
+
+---
+
 🔒 Ignored Files
 
 The project excludes:
