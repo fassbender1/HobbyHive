@@ -1,68 +1,80 @@
-📘 HobbyHive – Full Documentation
+📘 HobbyHive – Full Project Documentation
 
 🚀 Overview
 
-HobbyHive is a full-stack Django web application designed to bring people together through shared interests.
+HobbyHive is a full-stack Django web application designed to connect people through shared interests.
 
-Users can:
+It allows users to discover hobbies, join groups, participate in events, and interact socially within a structured and scalable platform.
 
-Discover hobbies
+The project is built with real-world deployment in mind and is suitable for hosting on platforms like AWS or Azure.
 
-Join groups
+✨ Core Functionalities
 
-Participate in events
+👤 Authentication & Accounts (/accounts/)
 
-Interact socially via comments and participation systems
+User registration (/accounts/register/)
 
-The platform emphasizes community building, user engagement, and scalable architecture, making it suitable for real-world deployment (AWS / Azure).
+Login / Logout (/accounts/login/)
 
-✨ Core Features
-
-👤 Authentication & User System
-
-User registration & login/logout
-
-Profile pages with:
+Profile view (/accounts/profile/<id>/)
 
 Profile picture upload (media handling)
 
-User-specific data
+Profile edit (/accounts/profile/<id>/edit/)
 
 Ownership-based permissions
 
-🎯 Hobbies
+🎯 Hobbies (/hobbies/)
 
-Create, edit, delete hobbies
+List all hobbies
 
-Join / leave hobbies
+Create hobby (/hobbies/create/)
+
+Edit hobby (/hobbies/<id>/edit/)
+
+Delete hobby (/hobbies/<id>/delete/)
+
+Join / Leave hobby
+
+View hobby details (/hobbies/<id>/)
 
 View participants
 
-Ownership-based controls (edit/delete only for owner)
+👥 Groups (/groups/)
 
-👥 Groups
+List all groups
 
-Create groups tied to hobbies
+Create group (/groups/create/)
 
-Join / leave groups
+Edit group (owner only)
 
-Group ownership logic
+Delete group (owner only)
 
-Group detail pages
+Join / Leave group
 
-📅 Events
+Group detail view (/groups/<id>/)
 
-Create events within groups
+Groups are linked to hobbies
 
-Join / leave events
+📅 Events (/events/)
 
-Event organizer system
+List all events
 
-Event detail pages
+Create event (/events/create/)
 
-Email notifications (async via signals)
+Edit event (organizer only)
 
-💬 Comments System
+Delete event (organizer only)
+
+Join / Leave event
+
+Event detail view (/events/<id>/)
+
+Events belong to groups
+
+Organizer system
+
+💬 Comments System (/comments/)
 
 Users can comment on:
 
@@ -70,11 +82,15 @@ Events
 
 Groups
 
-Dynamic filtering (via query params like ?event= or ?group=)
+Dynamic filtering via query params:
+
+/comments/?event=<id>
+
+/comments/?group=<id>
 
 🔍 Search & Pagination
 
-Search across:
+Search functionality on:
 
 Hobbies
 
@@ -82,131 +98,130 @@ Groups
 
 Events
 
-Pagination for scalability
+Pagination implemented across list views
 
 🔌 API (Django REST Framework)
 
-📡 Available Endpoints
+📡 Endpoints
 
-Endpoint	Description
+/api/hobbies/
 
-/api/hobbies/	List/Create hobbies
+/api/groups/
 
-/api/groups/	List/Create groups
-
-/api/events/	List/Create events
+/api/events/
 
 💡 API Capabilities
 
-JSON-based interaction
+JSON-based responses
+
+Supports CRUD operations
 
 Can be used for:
 
-Mobile apps 📱
+Mobile applications
 
-Frontend frameworks (React/Vue)
+Frontend frameworks (React, Vue, etc.)
 
 External integrations
 
-Easily extendable (authentication, filtering, permissions)
+⚙️ Custom Middleware (Advanced Feature)
 
-⚙️ Custom Middleware (Advanced Feature ⭐)
+🧠 Implemented Custom Middlewares
 
-🧠 Middleware Breakdown
+LastSeenMiddleware
 
-🔹 LastSeenMiddleware
+Tracks the last activity timestamp of authenticated users
 
-Tracks last activity timestamp of users
+RequestTimeMiddleware
 
-Enables “last seen” features
+Measures and logs request processing time (useful for performance monitoring)
 
-🔹 RequestTimeMiddleware
+ForceCustomErrorPagesMiddleware
 
-Logs request execution time
+Forces custom error pages (403, 404, 500) to display even when DEBUG=True
 
-Useful for debugging & performance monitoring
+⚡ Asynchronous & Advanced Features
 
-🔹 ForceCustomErrorPagesMiddleware
+📧 Django Signals
 
-Forces custom error pages even when DEBUG=True
+Automatically triggered on event creation
 
-Ensures consistent UX during development & production
+Sends email notifications
 
-⚡ Asynchronous & Advanced Logic
+Decouples logic from views
 
-📧 Signals (Django Signals)
+🔄 Dynamic UI Logic
 
-Triggered on event creation
+Conditional rendering based on:
 
-Automatically sends email notifications
+Ownership (Edit/Delete buttons)
 
-Decouples business logic from views
+Participation (Join/Leave buttons)
 
-🔄 Dynamic UI Behavior
+💡 Additional Enhancements
+Smart templates for authenticated vs anonymous users
 
-Conditional buttons:
+Query-based filtering for comments
 
-Join / Leave
+Clean separation of concerns across apps
 
-Edit / Delete (owner-only)
+🎨 UI & User Experience
 
-Smart rendering based on user state
+Responsive design (Bootstrap)
 
-🎨 UI/UX Features
+Card-based layout for all entities
 
-Responsive design (Bootstrap-based)
+User-friendly navigation
 
-Clean card-based layouts
+Conditional buttons based on permissions
 
-Conditional rendering for authenticated users
+Clean and minimal interface
 
-Custom error pages:
+⚠️ Custom Error Pages
 
-403 Forbidden
+Custom error pages implemented for:
 
-404 Not Found
+403 – Forbidden
 
-500 Server Error
+404 – Not Found
 
-Generic fallback page
+500 – Server Error
+
+Generic fallback error page
+
+These work in both development and production via middleware.
 
 📁 Static & Media Handling
 
 Static files served via WhiteNoise
 
-Media files (profile pictures) handled separately
+Media files (profile pictures) handled via MEDIA_ROOT
 
-Production-ready configuration:
-
-STATIC_ROOT
-
-MEDIA_ROOT
+Production-ready setup
 
 🚀 Deployment Ready
 
-The project is fully prepared for:
+The project is prepared for deployment on:
 
-☁️ AWS / Azure Deployment
+AWS
 
-Works with:
+Azure
 
-Nginx + Gunicorn
+🔧 Production Setup Includes
 
-WhiteNoise (static files)
+DEBUG = False support
 
-Environment-based configuration supported
+WhiteNoise for static files
 
-🔐 Production Considerations
+Media file handling
 
-DEBUG = False
+Custom error pages
 
-Secure middleware enabled
-
-Custom error handling
+Secure middleware configuration
 
 📦 Installation & Setup
 
-1️⃣ Clone the repository
+1️⃣ Clone repository
 
 git clone <your-repo-url>
 
@@ -216,13 +231,13 @@ cd HobbyHive
 
 python -m venv .venv
 
-3️⃣ Activate it
+3️⃣ Activate environment
 
-Windows:
+Windows
 
 .venv\Scripts\activate
 
-Linux/Mac:
+Linux / Mac
 
 source .venv/bin/activate
 
@@ -234,12 +249,11 @@ pip install -r requirements.txt
 
 python manage.py migrate
 
-6️⃣ Run the server
+6️⃣ Run server
 
 python manage.py runserver
 
-🔒 Environment & Ignored Files
-
+🔒 Ignored Files
 
 The project excludes:
 
@@ -251,25 +265,23 @@ env/
 
 __pycache__/
 
-✔ Ensures clean repo
+media/
 
-✔ Protects sensitive data
+🌟 Features Beyond Requirements
 
-🌟 Extra Features (Beyond Requirements)
+Custom middleware (tracking + performance)
 
-✅ Custom middleware (tracking + performance)
+Django signals (async logic)
 
-✅ Django signals (async behavior)
+REST API integration
 
-✅ REST API integration
+WhiteNoise production configuration
 
-✅ WhiteNoise production setup
+Dynamic UI rendering (ownership & participation)
 
-✅ Dynamic UI logic (ownership & participation)
+Custom error handling in all environments
 
-✅ Custom error handling in ALL environments
-
-✅ Scalable architecture for cloud deployment
+Scalable deployment-ready architecture
 
 📊 Tech Stack
 
@@ -277,31 +289,28 @@ Backend: Django, Django REST Framework
 
 Frontend: HTML, CSS, Bootstrap
 
-Database: PostgreSQL (via psycopg2)
+Database: PostgreSQL (psycopg2)
 
 Deployment: AWS / Azure ready
 
-Static Handling: WhiteNoise
-
-📌 Final Notes for Evaluation
-
-The project is production-ready
-
-Demonstrates:
-
-Clean architecture
-
-Advanced Django usage
-
-Real-world deployment considerations
-
-Designed to scale beyond coursework requirements
+Static handling: WhiteNoise
 
 🔗 Deployment Links
 
-
 (To be added after deployment)
 
-🌍 AWS:
+AWS:
 
-🌍 Azure:
+Azure:
+
+📌 Final Notes
+
+This project demonstrates:
+
+Full-stack Django development
+
+Clean architecture and separation of concerns
+
+Real-world deployment readiness
+
+Advanced Django features beyond the basic requirements
