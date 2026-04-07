@@ -133,9 +133,16 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer', 
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
+
+import django
+if not DEBUG:
+    from rest_framework.settings import api_settings
+    api_settings.DEFAULT_RENDERER_CLASSES += (
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
