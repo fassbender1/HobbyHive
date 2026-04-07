@@ -1,6 +1,8 @@
 
 # 📘 HobbyHive – Full Project Documentation
 
+---
+
 #### AWS deployed: http://51.21.64.133/
 
 ---
