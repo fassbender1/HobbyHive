@@ -1,9 +1,11 @@
+
 📘 HobbyHive – Full Project Documentation
 
 AWS deployed:
 
 http://51.21.64.133/
 
+---
 
 🚀 Overview
 
@@ -13,7 +15,11 @@ It allows users to discover hobbies, join groups, participate in events, and int
 
 The project is built with real-world deployment in mind and is suitable for hosting on platforms like AWS or Azure.
 
+---
+
 ✨ Core Functionalities
+
+---
 
 👤 Authentication & Accounts (/accounts/)
 
@@ -28,6 +34,8 @@ Profile picture upload (media handling)
 Profile edit (/accounts/profile/<id>/edit/)
 
 Ownership-based permissions
+
+---
 
 🎯 Hobbies (/hobbies/)
 
@@ -45,6 +53,8 @@ View hobby details (/hobbies/<id>/)
 
 View participants
 
+---
+
 👥 Groups (/groups/)
 
 List all groups
@@ -60,6 +70,8 @@ Join / Leave group
 Group detail view (/groups/<id>/)
 
 Groups are linked to hobbies
+
+---
 
 📅 Events (/events/)
 
@@ -79,6 +91,8 @@ Events belong to groups
 
 Organizer system
 
+---
+
 💬 Comments System (/comments/)
 
 Users can comment on:
@@ -93,6 +107,8 @@ Dynamic filtering via query params:
 
 /comments/?group=<id>
 
+---
+
 🔍 Search & Pagination
 
 Search functionality on:
@@ -105,6 +121,8 @@ Events
 
 Pagination implemented across list views
 
+---
+
 🔌 API (Django REST Framework)
 
 📡 Endpoints
@@ -114,6 +132,8 @@ Pagination implemented across list views
 /api/groups/
 
 /api/events/
+
+---
 
 💡 API Capabilities
 
@@ -129,7 +149,11 @@ Frontend frameworks (React, Vue, etc.)
 
 External integrations
 
+---
+
 ⚙️ Custom Middleware (Advanced Feature)
+
+---
 
 🧠 Implemented Custom Middlewares
 
@@ -147,6 +171,8 @@ Forces custom error pages (403, 404, 500) to display even when DEBUG=True
 
 ⚡ Asynchronous & Advanced Features
 
+---
+
 📧 Django Signals
 
 Automatically triggered on event creation
@@ -154,6 +180,8 @@ Automatically triggered on event creation
 Sends email notifications
 
 Decouples logic from views
+
+---
 
 🔄 Dynamic UI Logic
 
@@ -163,12 +191,16 @@ Ownership (Edit/Delete buttons)
 
 Participation (Join/Leave buttons)
 
+---
+
 💡 Additional Enhancements
 Smart templates for authenticated vs anonymous users
 
 Query-based filtering for comments
 
 Clean separation of concerns across apps
+
+---
 
 🎨 UI & User Experience
 
@@ -181,6 +213,8 @@ User-friendly navigation
 Conditional buttons based on permissions
 
 Clean and minimal interface
+
+---
 
 ⚠️ Custom Error Pages
 
@@ -196,6 +230,8 @@ Generic fallback error page
 
 These work in both development and production via middleware.
 
+---
+
 📁 Static & Media Handling
 
 Static files served via WhiteNoise
@@ -204,12 +240,17 @@ Media files (profile pictures) handled via MEDIA_ROOT
 
 Production-ready setup
 
+---
+
 🚀 Deployment Ready
 
-The project is prepared for deployment on:
+The project is prepared for deployment on AWS using:
 
-AWS
+- Gunicorn as the WSGI server
 
+- Nginx as a reverse proxy for static/media files and security
+
+---
 
 🔧 Production Setup Includes
 
@@ -222,6 +263,8 @@ Media file handling
 Custom error pages
 
 Secure middleware configuration
+
+---
 
 📦 Installation & Setup
 
@@ -257,6 +300,8 @@ python manage.py migrate
 
 python manage.py runserver
 
+---
+
 🔒 Ignored Files
 
 The project excludes:
@@ -270,6 +315,8 @@ env/
 __pycache__/
 
 media/
+
+---
 
 🌟 Features Beyond Requirements
 
@@ -287,6 +334,8 @@ Custom error handling in all environments
 
 Scalable deployment-ready architecture
 
+---
+
 📊 Tech Stack
 
 Backend: Django, Django REST Framework
@@ -299,11 +348,14 @@ Deployment: AWS ready
 
 Static handling: WhiteNoise
 
+---
+
 🔗 Deployment Links
 
 
 AWS: http://51.21.64.133/
 
+---
 
 📌 Final Notes
 
